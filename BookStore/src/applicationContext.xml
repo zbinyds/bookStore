@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<beans>
+    <!-- DAO层   -->
+    <bean id="userDAO" class="com.callbin.bookstores.dao.impl.UserDAOImpl"/>
+    <bean id="bookDAO" class="com.callbin.bookstores.dao.impl.BookDAOImpl"/>
+    <bean id="cartItemDAO" class="com.callbin.bookstores.dao.impl.CartItemDAOImpl"/>
+    <bean id="orderBeanDAO" class="com.callbin.bookstores.dao.impl.OrderBeanDAOImpl"/>
+    <bean id="orderItemDAO" class="com.callbin.bookstores.dao.impl.OrderItemDAOImpl"/>
+
+    <!-- Service层   -->
+    <bean id="userService" class="com.callbin.bookstores.service.impl.UserServiceImpl">
+        <property name="userDAO" ref="userDAO"/>
+    </bean>
+    <bean id="bookService" class="com.callbin.bookstores.service.impl.BookServiceImpl">
+        <property name="bookDAO" ref="bookDAO"/>
+    </bean>
+    <bean id="cartItemService" class="com.callbin.bookstores.service.impl.CartItemServiceImpl">
+        <property name="cartItemDAO" ref="cartItemDAO"/>
+        <property name="bookDAO" ref="bookDAO"/>
+        <property name="userDAO" ref="userDAO"/>
+    </bean>
+    <bean id="orderBeanService" class="com.callbin.bookstores.service.impl.OrderBeanServiceImpl">
+        <property name="userDAO" ref="userDAO"/>
+        <property name="orderBeanDAO" ref="orderBeanDAO"/>
+        <property name="orderItemDAO" ref="orderItemDAO"/>
+        <property name="cartItemDAO" ref="cartItemDAO"/>
+        <property name="cartItemService" ref="cartItemService"/>
+        <property name="orderItemService" ref="orderItemService"/>
+        <property name="userService" ref="userService"/>
+    </bean>
+    <bean id="orderItemService" class="com.callbin.bookstores.service.impl.OrderItemServiceImpl">
+        <property name="orderItemDAO" ref="orderItemDAO"/>
+    </bean>
+
+    <!-- Controller层   -->
+    <bean id="user" class="com.callbin.bookstores.controllers.UserController">
+        <property name="userService" ref="userService"/>
+        <property name="cartItemService" ref="cartItemService"/>
+    </bean>
+    <bean id="book" class="com.callbin.bookstores.controllers.BookController">
+        <property name="bookService" ref="bookService"/>
+        <property name="cartItemService" ref="cartItemService"/>
+    </bean>
+    <bean id="cart" class="com.callbin.bookstores.controllers.CartItemController">
+        <property name="cartItemService" ref="cartItemService"/>
+    </bean>
+    <bean id="order" class="com.callbin.bookstores.controllers.OrderController">
+        <property name="orderBeanService" ref="orderBeanService"/>
+    </bean>
+
+    <bean id="page" class="com.callbin.myssm.myspringmvc.PageController"/>
+</beans>
